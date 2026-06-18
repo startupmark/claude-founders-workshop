@@ -3,6 +3,9 @@
 # deliberately. Start the proxy with: litellm --config cost/litellm.config.yaml
 #
 # This is a convenience for cost control; nothing in the app depends on it.
+#
+# Model IDs are the canonical ones from config/models.ts. YAML can't import, so
+# keep the values below in sync with that file when you pin versions.
 model_list:
   - model_name: claude-haiku
     litellm_params:

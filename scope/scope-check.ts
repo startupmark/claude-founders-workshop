@@ -14,8 +14,9 @@
 // Exit code: 0 if in scope, 1 if out of scope, 2 on a usage/setup error.
 import { execSync } from "node:child_process";
 import Anthropic from "@anthropic-ai/sdk";
+import { MODELS } from "../config/models";
 
-const MODEL = "claude-haiku-4-5";
+const MODEL = MODELS.haiku; // a cheap, low-cost model for this bounded scoring call
 
 // JSON-schema subset: object with additionalProperties:false, plain types only.
 const SCHEMA = {

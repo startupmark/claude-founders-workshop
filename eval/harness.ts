@@ -14,9 +14,10 @@ import { readFileSync, writeFileSync, existsSync } from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import { query } from "@anthropic-ai/claude-agent-sdk";
+import { MODELS } from "../config/models";
 
 const REPO = process.cwd();
-const MODEL = "claude-haiku-4-5"; // cheap; the A/B cost gap shows on any tier
+const MODEL = MODELS.haiku; // cheap; the A/B cost gap shows on any tier
 const MAX_TURNS = 12;
 const BASELINE_PATH = path.join(REPO, "eval", "baseline-config-a.json");
 
