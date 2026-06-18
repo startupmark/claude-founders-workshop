@@ -107,10 +107,15 @@ async function main() {
 
   const score = parseScore(extractText(res));
   console.log(JSON.stringify(score, null, 2));
-  process.exit(score.in_scope ? 0 : 1);
+  // Set exitCode and let the event loop drain rather than calling process.exit():
+  // a hard exit here tears Node down while the Anthropic SDK's HTTP socket is
+  // still closing, which prints a libuv "UV_HANDLE_CLOSING" assertion on Windows
+  // AFTER the (correct) JSON. Draining first avoids the noise; exit codes are
+  // unchanged (0 in scope, 1 out of scope).
+  process.exitCode = score.in_scope ? 0 : 1;
 }
 
 main().catch((err) => {
   console.error(err);
-  process.exit(2);
+  process.exitCode = 2; // exitCode (not process.exit) so an open SDK socket closes cleanly — see above
 });
