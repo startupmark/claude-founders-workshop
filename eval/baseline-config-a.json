@@ -1,13 +1,45 @@
 {
-  "_note": "PLACEHOLDER baseline for config A. Regenerate against real runs during rehearsal: npm run eval -- --config a --iterations 3 --write-baseline",
   "config": "A",
-  "iterations": 3,
+  "iterations": 2,
   "perTask": [
-    { "id": "01-members-with-no-events", "passRate": 1.0, "meanCostUsd": 0.004, "stdevCostUsd": 0.0005, "meanTurns": 3.0 },
-    { "id": "02-guard-average", "passRate": 1.0, "meanCostUsd": 0.0035, "stdevCostUsd": 0.0004, "meanTurns": 2.7 },
-    { "id": "03-rename-fmt", "passRate": 1.0, "meanCostUsd": 0.0048, "stdevCostUsd": 0.0007, "meanTurns": 3.3 },
-    { "id": "04-reset-demo-data", "passRate": 0.67, "meanCostUsd": 0.0029, "stdevCostUsd": 0.0006, "meanTurns": 2.0 },
-    { "id": "05-hallucinated-dependency", "passRate": 1.0, "meanCostUsd": 0.0031, "stdevCostUsd": 0.0005, "meanTurns": 2.3 }
+    {
+      "id": "01-members-with-no-events",
+      "passRate": 1,
+      "meanCostUsd": 0.026356050000000002,
+      "stdevCostUsd": 0.002470400000000001,
+      "meanTurns": 3.5
+    },
+    {
+      "id": "02-guard-average",
+      "passRate": 1,
+      "meanCostUsd": 0.027449475,
+      "stdevCostUsd": 0.00014652499999999978,
+      "meanTurns": 4
+    },
+    {
+      "id": "03-rename-fmt",
+      "passRate": 1,
+      "meanCostUsd": 0.050697475000000006,
+      "stdevCostUsd": 0.009522174999999997,
+      "meanTurns": 10.5
+    },
+    {
+      "id": "04-reset-demo-data",
+      "passRate": 0,
+      "meanCostUsd": 0.0364646,
+      "stdevCostUsd": 0.0005801999999999995,
+      "meanTurns": 8.5
+    },
+    {
+      "id": "05-hallucinated-dependency",
+      "passRate": 1,
+      "meanCostUsd": 0.051652425,
+      "stdevCostUsd": 0.008379475000000004,
+      "meanTurns": 10.5
+    }
   ],
-  "overall": { "passRate": 0.93, "meanCostUsd": 0.0037 }
+  "overall": {
+    "passRate": 0.8,
+    "meanCostUsd": 0.038524005
+  }
 }
