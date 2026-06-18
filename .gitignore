@@ -41,3 +41,7 @@ Thumbs.db
 
 # Test / coverage
 /coverage
+
+# Claude Code hook artifacts and local settings overrides
+.claude/hooks/blocks.log
+.claude/settings.local.json

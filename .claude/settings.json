@@ -1,0 +1,46 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"${CLAUDE_PROJECT_DIR}/.claude/hooks/prod-tripwire.mjs\"",
+            "timeout": 10
+          },
+          {
+            "type": "command",
+            "command": "node \"${CLAUDE_PROJECT_DIR}/.claude/hooks/slopsquat-guard.mjs\"",
+            "timeout": 15
+          }
+        ]
+      }
+    ]
+  },
+  "permissions": {
+    "deny": [
+      "Read(./.env)",
+      "Read(./.env.*)",
+      "Read(./**/*.pem)"
+    ]
+  },
+  "sandbox": {
+    "enabled": true,
+    "allowUnsandboxedCommands": false,
+    "failIfUnavailable": false,
+    "network": {
+      "allowedDomains": [
+        "registry.npmjs.org",
+        "api.npmjs.org",
+        "github.com",
+        "api.github.com",
+        "codeload.github.com",
+        "api.anthropic.com"
+      ]
+    },
+    "filesystem": {
+      "allowWrite": ["."]
+    }
+  }
+}
