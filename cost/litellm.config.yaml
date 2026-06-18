@@ -1,0 +1,21 @@
+# Optional: LiteLLM proxy config for tiered routing across Claude models.
+# Route bulk/cheap work to Haiku, default to Sonnet, escalate to Opus
+# deliberately. Start the proxy with: litellm --config cost/litellm.config.yaml
+#
+# This is a convenience for cost control; nothing in the app depends on it.
+model_list:
+  - model_name: claude-haiku
+    litellm_params:
+      model: anthropic/claude-haiku-4-5
+      api_key: os.environ/ANTHROPIC_API_KEY
+  - model_name: claude-sonnet
+    litellm_params:
+      model: anthropic/claude-sonnet-4-6
+      api_key: os.environ/ANTHROPIC_API_KEY
+  - model_name: claude-opus
+    litellm_params:
+      model: anthropic/claude-opus-4-8
+      api_key: os.environ/ANTHROPIC_API_KEY
+
+router_settings:
+  routing_strategy: simple-shuffle
