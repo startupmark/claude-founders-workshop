@@ -48,3 +48,6 @@ Thumbs.db
 
 # Verifier subagent's generated edge-case tests (live workshop artifacts)
 test/*.verifier.test.ts
+
+# Local session handoff doc (never publish)
+/HANDOFF.md
