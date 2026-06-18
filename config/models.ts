@@ -3,7 +3,12 @@
 //
 // Why one place: BUILD_SPEC's "Versions to pin" step wants the model IDs in one
 // config value, not scattered across scripts. Update them here and every script
-// follows. When you rehearse the workshop (Stage 6), pin these to dated IDs.
+// follows.
+//
+// Version pinning (Stage 6): only Haiku publishes a dated snapshot ID, so only
+// Haiku is dated below. The bare `claude-opus-4-8` and `claude-sonnet-4-6`
+// strings ARE the complete, canonical IDs -- there is no dated variant, and
+// appending a date (e.g. `-20251114`) would 404. Leave them undated.
 //
 // Two consumers can't import TypeScript and so name this file instead of reading
 // from it: cost/litellm.config.yaml (its strings must match the values below)
@@ -11,5 +16,5 @@
 export const MODELS = {
   opus: "claude-opus-4-8",
   sonnet: "claude-sonnet-4-6",
-  haiku: "claude-haiku-4-5",
+  haiku: "claude-haiku-4-5-20251001",
 } as const;

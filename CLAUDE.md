@@ -20,7 +20,7 @@ Some code here is broken, messy, or unguarded on purpose. These are teaching fix
 
 ## Stack
 
-- Next.js (App Router) + TypeScript. Node 20. npm.
+- Next.js (App Router) + TypeScript. Node 24. npm.
 - Drizzle ORM over better-sqlite3. Migrations self-apply on boot.
 - Tests: vitest, hermetic — each test uses an in-memory SQLite database and applies migrations itself. No external services, no env setup.
 

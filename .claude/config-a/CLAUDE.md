@@ -5,7 +5,7 @@ better-sqlite3, vitest. Keep changes small and the gate green.
 
 ## Stack
 
-- Next.js App Router + TypeScript, Node 20, npm.
+- Next.js App Router + TypeScript, Node 24, npm.
 - Drizzle ORM over better-sqlite3; migrations self-apply on boot.
 - Tests: vitest, hermetic — each test builds its own in-memory SQLite database
   and applies migrations itself. No external services, no env setup.
