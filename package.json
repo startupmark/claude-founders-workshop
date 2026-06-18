@@ -13,9 +13,12 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "ci": "npm run lint && npm run typecheck && npm run test",
-    "db:generate": "drizzle-kit generate"
+    "db:generate": "drizzle-kit generate",
+    "cache-probe": "tsx cost/cache-probe.ts",
+    "prefix-sentinel": "node cost/prefix-sentinel.mjs"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.104.2",
     "better-sqlite3": "^12.2.0",
     "drizzle-orm": "^0.38.3",
     "next": "^15.1.4",
@@ -30,6 +33,7 @@
     "drizzle-kit": "^0.30.1",
     "eslint": "^8.57.1",
     "eslint-config-next": "^15.1.4",
+    "tsx": "^4.22.4",
     "typescript": "^5.7.3",
     "vitest": "^2.1.8"
   }
