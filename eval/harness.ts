@@ -23,7 +23,7 @@ const BASELINE_PATH = path.join(REPO, "eval", "baseline-config-a.json");
 
 type Grader = (tmp: string, resultText: string) => boolean;
 interface TaskDef { id: string; file: string; grade: Grader }
-interface RunResult { pass: boolean; costUsd: number; turns: number }
+interface RunResult { pass: boolean; costUsd: number; turns: number; errored: boolean }
 interface TaskAgg { id: string; passRate: number; meanCostUsd: number; stdevCostUsd: number; meanTurns: number }
 interface ConfigAgg { config: string; iterations: number; perTask: TaskAgg[]; overall: { passRate: number; meanCostUsd: number } }
 
@@ -88,11 +88,43 @@ async function runOnce(prompt: string, configBody: string, tmp: string, grade: G
       resultText = "result" in msg ? msg.result : "";
     }
   }
-  return { pass: !isError && grade(tmp, resultText), costUsd, turns };
+  return { pass: !isError && grade(tmp, resultText), costUsd, turns, errored: false };
 }
 
 const mean = (xs: number[]) => (xs.length ? xs.reduce((a, b) => a + b, 0) / xs.length : 0);
 const stdev = (xs: number[]) => { const m = mean(xs); return Math.sqrt(mean(xs.map((x) => (x - m) ** 2))); };
+
+// A single sequential headless run can die two ways on Windows: a native crash
+// of the spawned Claude Code process (exit 0xC0000005), or the SDK throwing when
+// a run hits maxTurns. Either one used to abort the whole harness. Isolate each
+// run: retry a transient native crash a few times, otherwise record the run as
+// errored and continue. Errored runs count as not-pass but are excluded from the
+// cost aggregate -- their cost is unreadable, and a 0 would skew the A/B verdict
+// (config B burns more turns, so it would be penalized into looking cheaper).
+const TRANSIENT_CRASH = /exited with code|ECONNRESET|ETIMEDOUT|socket hang up|EPIPE/i;
+const MAX_ATTEMPTS = 3;
+
+async function runTask(prompt: string, configBody: string, tag: string, grade: Grader, label: string): Promise<RunResult> {
+  for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt++) {
+    const tmp = makeWorktree(`${tag}-try${attempt}`);
+    try {
+      const r = await runOnce(prompt, configBody, tmp, grade);
+      console.log(`  ${label}: ${r.pass ? "pass" : "fail"}  $${r.costUsd.toFixed(4)}  ${r.turns} turns`);
+      return r;
+    } catch (err) {
+      const msg = (err instanceof Error ? err.message : String(err)).replace(/\s+/g, " ");
+      if (TRANSIENT_CRASH.test(msg) && attempt < MAX_ATTEMPTS) {
+        console.log(`  ${label}: crashed (${msg.slice(0, 50)}); retry ${attempt + 1}/${MAX_ATTEMPTS}`);
+        continue;
+      }
+      console.log(`  ${label}: ERROR (${msg.slice(0, 70)})`);
+      return { pass: false, costUsd: 0, turns: 0, errored: true };
+    } finally {
+      removeWorktree(tmp);
+    }
+  }
+  return { pass: false, costUsd: 0, turns: 0, errored: true }; // unreachable; loop returns or errors
+}
 
 async function runConfig(configName: string, configBody: string, iterations: number): Promise<ConfigAgg> {
   const perTask: TaskAgg[] = [];
@@ -102,22 +134,17 @@ async function runConfig(configName: string, configBody: string, iterations: num
     const prompt = loadPrompt(task.file);
     const runs: RunResult[] = [];
     for (let i = 0; i < iterations; i++) {
-      const tmp = makeWorktree(`${configName}-${task.id}-${i}`);
-      try {
-        const r = await runOnce(prompt, configBody, tmp, task.grade);
-        runs.push(r);
-        console.log(`  [${configName}] ${task.id} #${i + 1}: ${r.pass ? "pass" : "fail"}  $${r.costUsd.toFixed(4)}  ${r.turns} turns`);
-      } finally {
-        removeWorktree(tmp);
-      }
+      runs.push(await runTask(prompt, configBody, `${configName}-${task.id}-${i}`, task.grade,
+        `[${configName}] ${task.id} #${i + 1}`));
     }
-    const costs = runs.map((r) => r.costUsd);
+    const completed = runs.filter((r) => !r.errored); // cost/turns only from runs that finished cleanly
+    const costs = completed.map((r) => r.costUsd);
     perTask.push({
       id: task.id,
       passRate: mean(runs.map((r) => (r.pass ? 1 : 0))),
       meanCostUsd: mean(costs),
       stdevCostUsd: stdev(costs),
-      meanTurns: mean(runs.map((r) => r.turns)),
+      meanTurns: mean(completed.map((r) => r.turns)),
     });
     allPass.push(...runs.map((r) => r.pass));
     allCost.push(...costs);
