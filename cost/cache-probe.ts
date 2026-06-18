@@ -13,8 +13,9 @@
 import { readFileSync } from "node:fs";
 import path from "node:path";
 import Anthropic from "@anthropic-ai/sdk";
+import { MODELS } from "../config/models";
 
-const MODEL = "claude-haiku-4-5";
+const MODEL = MODELS.haiku; // Haiku keeps the probe's cost negligible
 const CONTEXT_PATH = path.resolve(process.cwd(), "cost/sample-context.md");
 
 async function probe(client: Anthropic, context: string, label: string) {
