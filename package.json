@@ -15,7 +15,8 @@
     "ci": "npm run lint && npm run typecheck && npm run test",
     "db:generate": "drizzle-kit generate",
     "cache-probe": "tsx cost/cache-probe.ts",
-    "prefix-sentinel": "node cost/prefix-sentinel.mjs"
+    "prefix-sentinel": "node cost/prefix-sentinel.mjs",
+    "scope-check": "tsx scope/scope-check.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.104.2",

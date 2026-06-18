@@ -45,3 +45,6 @@ Thumbs.db
 # Claude Code hook artifacts and local settings overrides
 .claude/hooks/blocks.log
 .claude/settings.local.json
+
+# Verifier subagent's generated edge-case tests (live workshop artifacts)
+test/*.verifier.test.ts
