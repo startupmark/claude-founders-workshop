@@ -24,13 +24,14 @@ stays on your subscription. The participant guide covers this.
 
 ## What you're forking
 
-`acme-community` tracks members and events: two tables, three numbers. The data
-is synthetic. Some code is broken on purpose -- a divide-by-zero, an unguarded
-reset, a bloated config -- and those are teaching fixtures, so leave them be. By
-the last part, your repo looks like `main`: instrumented, guarded, self-checking.
+`acme-community` tracks members and events: two tables, three numbers, small
+enough to read over a cup of coffee. The data is synthetic. Some code is broken
+on purpose -- a divide-by-zero, an unguarded reset, a bloated config -- and those
+are teaching fixtures, so leave them be. By the last part, your repo looks like
+`main`: instrumented, guarded, self-checking.
 
 Prefer to build against your own repo? The participant guide explains that path.
 
 ## License
 
-MIT. See [LICENSE](LICENSE).
+MIT. See [LICENSE](LICENSE). Fork it, run it, change it, and enjoy.
