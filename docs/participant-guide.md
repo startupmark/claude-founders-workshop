@@ -8,7 +8,7 @@ If you haven't done the setup yet, start with the [pre-flight checklist](pre-fli
 
 Most teams are using Claude. Fewer are operating it. Using it means typing prompts and accepting diffs. Operating it means knowing what a feature cost, capping what an agent is allowed to break, catching the change that's almost right but not quite, and proving a config tweak actually helped instead of guessing. That's the gap these five parts close, in the order that gives you a visible win soonest.
 
-The order is **See, Save, Secure, Verify, Systematize**. Underneath, you're learning to reach for one of three surfaces depending on the job:
+The order is **See, Save, Secure, Verify, Systematize**. Underneath, you're learning to reach for one of three layers depending on the job:
 
 - **Extend** is configuring Claude Code itself: hooks, settings, subagents, telemetry. No code that calls Claude. This is where rules that must be reliable live, because they run as deterministic code, not as requests in a prompt.
 - **Call** is a single, stateless request to the Messages API for one narrow job, like scoring a diff. Cheap and bounded; no agent.
@@ -32,7 +32,7 @@ Commands are written for macOS and Linux (bash or zsh). Where Windows PowerShell
 
 ## Part 1 - See
 
-**The pain.** How much did your last feature cost? What's your cache-hit rate? Is the model even earning its tokens? Most people can't say, because nothing shows it. `/cost` is per-session and forgotten on exit. So you start by looking at your own history, which is usually a little uncomfortable.
+**The pain.** How much did your last feature cost? What's your cache-hit rate? Is the model's output even worth keeping? Most people can't say, because nothing shows it. `/cost` is per-session and forgotten on exit. So you start by looking at your own history, which is usually a little uncomfortable.
 
 **What you build.** Two pictures of your usage from two different sources.
 
@@ -175,7 +175,7 @@ Its target is the planted divide-by-zero in `averageEventsPerMember`, which retu
 
 **The pain.** You've edited your `CLAUDE.md` more than once. Did any of it help? You don't actually know. A study from ETH Zurich and LogicStar evaluating `AGENTS.md`-style context files found that LLM-written context files measurably *lowered* task success while raising cost by more than 20%. Some of your tweaks made things worse, and intuition can't tell you which. The fix is to stop guessing and measure.
 
-**What you build.** An A/B harness on the Agent SDK, the Embed surface, that runs a small golden set under two project configs and reports pass-rate and cost with variance. The two configs are the lean baseline (`.claude/config-a/CLAUDE.md`, about 40 lines) and the sludge fixture (`.claude/config-b/CLAUDE.md`, about 566 lines of vague, overlapping advice).
+**What you build.** An A/B harness on the Agent SDK, the Embed layer, that runs a small golden set under two project configs and reports pass-rate and cost with variance. The two configs are the lean baseline (`.claude/config-a/CLAUDE.md`, about 40 lines) and the sludge fixture (`.claude/config-b/CLAUDE.md`, about 566 lines of vague, overlapping advice).
 
 It needs a key and a clean working tree, since each run executes in an isolated git worktree at HEAD. The config-A baseline is pre-computed and shipped, so you only run the variant live:
 

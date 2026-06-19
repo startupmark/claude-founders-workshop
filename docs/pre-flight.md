@@ -1,14 +1,14 @@
 # Pre-flight checklist
 
-Run this before the session, not during it. Almost every workshop that stumbles does so for the same reason: someone shows up with a laptop that can't do one of the things the first exercise needs, and everyone waits while they fix it. Ten minutes the night before saves you that.
+Run this before the session, not during it. Almost every workshop that stumbles does so for the same reason: someone shows up with a laptop that can't do one of the things the first exercise needs, and everyone waits while they fix it.
 
 If you're facilitating, send this to attendees a few days ahead and ask them to reply once they've cleared the setup check at the bottom.
 
 ## What this workshop assumes
 
-This workshop is Claude-stack-specific. You'll be configuring Claude Code and making calls to the Anthropic API. If you only use Cursor or Copilot, you can follow the concepts, but the exact `.claude/` mechanics and the API snippets won't run as written. Worth knowing before you arrive, so nobody feels mis-sold.
+This workshop is Claude-stack-specific. You'll be configuring Claude Code and making calls to the Anthropic API. If you only use Cursor or Copilot, you can follow the concepts, but the exact `.claude/` mechanics and the API snippets won't run as written. Worth knowing before you arrive, so nobody feels misled.
 
-You'll get the most out of it if you bring your own repo (see the README's "Using your own repo instead"). If yours isn't a fit, you fork `acme-community` and build against that. Either way works.
+You'll get the most out of it if you bring your own repo (see the README's "Using your own repo"). If yours isn't a fit, you fork `acme-community` and build against that. Either way works.
 
 ## What you need
 
@@ -32,7 +32,7 @@ npm run ci        # lint -> typecheck -> test
 node --version    # expect v20 or newer
 ```
 
-You should see `npm run ci` finish with the test suite passing and no lint or type errors. If it does, the app and its toolchain work on your machine, which is most of the battle.
+You should see `npm run ci` finish with the test suite passing and no lint or type errors. If it does, the app and its toolchain work on your machine.
 
 Then confirm `ccusage` can read your history, since Part 1 leans on it:
 
@@ -43,8 +43,6 @@ npx ccusage@latest daily
 You should see a table of daily token and cost figures. If it's empty, your Claude Code history is somewhere non-standard or has been cleared. That's fine for the session: Part 1 has you point it at the bundled synthetic history instead.
 
 ## Your API key, and the billing trap
-
-This one bites people, so read it once carefully.
 
 Claude Code's auth prefers an `ANTHROPIC_API_KEY` in your environment over your subscription. If the key is set and you approve it when Claude Code prompts at startup, your entire interactive coding session bills against pay-as-you-go API credits, not your plan. The interactive session is the expensive part, far more than the few cents the workshop scripts spend.
 

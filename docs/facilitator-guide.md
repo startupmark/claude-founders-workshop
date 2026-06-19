@@ -2,11 +2,15 @@
 
 This guide is for whoever delivers the workshop. It covers setup, timing, what to do in each part, and what tends to go wrong. It does not repeat the step-by-step commands; those are in the [participant guide](participant-guide.md), which you should read first so you know exactly what attendees run.
 
+## How to frame it
+
+Set the stance before Part 1. Founders keep up with every new trick and still cannot answer the basic questions about cost, blast radius, and whether the model is helping. That gap is the point of the session. Say it once at the top and return to it at the end. Using Claude is the easy part. Operating it is the skill, and it is the part that does not expire when the model changes next week.
+
 ## Set up four things before you start
 
 Most failures come from one of four things not being ready. Check all four, for every attendee, before the first exercise:
 
-1. **Keys.** Give each attendee an API key with a small credit, set up ahead of time, and test each one (a single `npm run cache-probe` confirms it works). Keep a few spares. Set the spend cap high enough that nobody runs out partway through.
+1. **Keys.** Give each attendee an API key with a small amount of credits, set up ahead of time, and test each one (a single `npm run cache-probe` confirms it works). Keep a few spares. Set the spend cap high enough that nobody runs out partway through.
 2. **Docker, or not.** Docker is the most common thing to break. Default everyone to the Grafana Cloud dashboard in Part 1, which needs no Docker. Use the local Docker path only if you have confirmed it runs and the images are already pulled.
 3. **History.** Part 1 reads each attendee's own Claude Code history. Anyone without about two weeks of it uses the synthetic history in `fixtures/claude-history/`. Know that path.
 4. **Repo.** Parts 4 and 5 need real code with tests. Anyone whose repo does not fit uses `acme-community`. Sort out who is on their own repo and who is on the fallback before you begin.
@@ -35,11 +39,11 @@ The participant guide has the commands. Here is what to show live and what tends
 
 **Part 4, Verify.** Start from the "almost right but not quite" number in the Stack Overflow survey. Run the scope check against an over-scope diff and show `in_scope` go false, then run the verifier and watch it write a failing test for the divide-by-zero. Show the fraction-of-a-cent cost of the scope call. What tends to break: scope-check run on a clean tree (it needs uncommitted changes), and the subagent failing to load without saying so.
 
-**Part 5, Systematize.** This is the last and hardest part. Start with the ETH Zurich study: their config edits were guesses, and some made things worse. Run config B live against the pre-computed config-A baseline and show the verdict. Then show how the numbers move across iterations and explain why a single run can mislead. Close by pointing out that they have now used all three surfaces, Extend, Call, and Embed, and that a good setup is mostly knowing which one each job needs. What tends to break: a dirty tree (the harness refuses to run), and "native CLI binary not found" (an SDK binary problem; move that attendee to the cloud environment).
+**Part 5, Systematize.** This is the last and hardest part. Start with the ETH Zurich study: their config edits were guesses, and some made things worse. Run config B live against the pre-computed config-A baseline and show the verdict. Then show how the numbers move across iterations and explain why a single run can mislead. Close by pointing out that they have now used all three layers, Extend, Call, and Embed, and that a good setup is mostly knowing which one each job needs. What tends to break: a dirty tree (the harness refuses to run), and "native CLI binary not found" (an SDK binary problem; move that attendee to the cloud environment).
 
 ## The optional extras
 
-Both of these turn 60 minutes into 90 and are there for energy, not for the core lesson.
+Both of these turn 60 minutes into 90 minutes. Not needed for the core lesson, but to create more interactivity among participants.
 
 The red-team is the Part 3 exercise: everyone tries to break their own setup, in a sandbox directory only, which you state clearly and often. It is memorable and it produces a count. The scoreboard is a shared leaderboard across the five numbers (highest cache-hit, most destructive actions caught, most near-misses found, and so on). It takes time, because you collect and show everyone's results, but people remember it.
 
